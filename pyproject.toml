@@ -1,0 +1,17 @@
+[tool.poetry]
+name = "competency-matrix"
+version = "0.1.0"
+description = ""
+authors = ["Isciane Nicolle <isciane.nicolle@wishow.io>"]
+readme = "README.md"
+packages = [{include = "competency_matrix"}]
+
+[tool.poetry.dependencies]
+python = "^3.8"
+flask = "^2.2.3"
+pandas = "^2.0.0"
+
+
+[build-system]
+requires = ["poetry-core"]
+build-backend = "poetry.core.masonry.api"
