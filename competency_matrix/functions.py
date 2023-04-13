@@ -159,7 +159,7 @@ def best_profile():
         all_final_scores.append(final_score)
     final_scores_dict = dict(zip(names,all_final_scores))
     sorted_dict = dict(sorted(final_scores_dict.items(),key=lambda x: x[1],reverse=True))
-    json = json.dumps(sorted_dict)
-    return json
+    sorted_json = json.dumps(sorted_dict)
+    return sorted_json
 
 
