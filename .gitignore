@@ -1,2 +1,8 @@
 /dist
-/tests
+__pycache__/
+.vscode 
+
+*.jpg
+*.jpeg
+*.zip
+

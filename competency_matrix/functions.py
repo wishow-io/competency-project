@@ -7,43 +7,7 @@ import os
 
 
 #save jpeg of the radar chart in zipfile
-def generate_zipfile_by_family():
-#mock
-    dict = {
-    "1": {
-    
-        "Debugging & Observability": {
-            "Debugging":"1",
-            "Observability":"4"
-        },
-
-        "Quality & testing": {
-            "écriture de code":"4",
-            "testing":"3"
-        },
-
-        "Software design & architecure ": {
-            "understanding code":"2"
-        },
-    },
-
-    "2": {
-
-        "Debugging & Observability": {
-            "Debugging":"3",
-            "Observability":"5"
-        },
-
-        "Quality & testing":{
-            "écriture de code":"3",
-            "testing":"2"
-        },
-
-        "Software design & architecure ": {
-        "understanding code":"2"
-        },
-    }
-}
+def generate_zipfile_by_family(dict):
     for i in dict:
         with zipfile.ZipFile(f'myzipfile{i}.zip', 'w') as zip_file:
             for j in dict[i]:
@@ -55,26 +19,20 @@ def generate_zipfile_by_family():
                 df = pd.DataFrame(dict[i][j])
                 fig = px.line_polar(df,r="values",theta="keys",line_close=True)
                 fig.update_layout(title=f'Radar de {i} pour {j}')
-                fig.write_image(f'images/radar_{i} {j}.jpeg')
+                fig.write_image(f'images/radar_{i}_{j}.jpeg')
                 if not os.path.exists(f'myzipfile{i}'):
-                    zip_file.write(f'images/radar_{i} {j}.jpeg')
-                    os.remove(f'images/radar_{i} {j}.jpeg')
+                    zip_file.write(f'images/radar_{i}_{j}.jpeg')
+                    os.remove(f'images/radar_{i}_{j}.jpeg')
     return "Zip file created"
+generate_zipfile_by_family()
 
 
 
-def generate_radar_chart_image():
-    input_dict = {
-        "Debugging": 1,
-        "Observability": 4,
-        "écriture de code": 3,
-        "testing": 2,
-        "understanding code": 2
-    }
-
+def generate_radar_chart_image(dict):
+ 
     # Normalize input_dict values to range 0-5
-    max_val = max(input_dict.values())
-    normalized_dict = {k: v / max_val * 5 for k, v in input_dict.items()}
+    max_val = max(dict.values())
+    normalized_dict = {k: v / max_val * 5 for k, v in dict.items()}
 
     # Convert the dictionary to the format expected by px.line_polar
     data = {
@@ -91,50 +49,10 @@ def generate_radar_chart_image():
     return send_file(filename, mimetype='image/jpeg')
 
 
-def best_profile():
-    mydict = {
-    "target": {
-        "skill1": 4,
-        "skill2": 3,
-        "skill3": 3,
-        "skill4": 5,
-        "skill5": 4
-    },
-    "profiles": [
-        {
-            "name": "sdfsf sdfsfsdf",
-            "skills": {
-                "skill1": 4,
-                "skill2": 2,
-                "skill3": 2,
-                "skill4": 5,
-                "skill5": 5
-            }
-        },
-        {
-            "name": "ythfgh cccccc",
-            "skills": {
-                "skill1": 5,
-                "skill2": 5,
-                "skill3": 5,
-                "skill4": 0,
-                "skill5": 4
-            }
-        },
-        {
-            "name": "fdsfsfd fsfsf",
-            "skills": {
-                "skill1": 4,
-                "skill2": 3,
-                "skill3": 4,
-                "skill4": 4,
-                "skill5": 4
-            }
-        }
-    ]
-}
-    target_skills = mydict["target"]
-    profiles = mydict["profiles"]
+def best_profile(dict):
+
+    target_skills = dict["target"]
+    profiles = dict["profiles"]
     all_final_scores = []
     names = []
     

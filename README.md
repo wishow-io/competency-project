@@ -23,3 +23,7 @@ In order to retrieve all necessary dependencies, you need to:
 **Run project**
 
 > > $python3 app.py
+
+**Run tests**
+
+> > $
