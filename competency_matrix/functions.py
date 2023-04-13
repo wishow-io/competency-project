@@ -1,19 +1,8 @@
+import zipfile
 import plotly.express as px
 import pandas as pd
-from flask import Flask, send_file
-import os
-import zipfile
-
-#creating folder images
-if not os.path.exists("images"):
-    os.mkdir("images")
-
-#app
-app = Flask(__name__,template_folder='templates')
-
-@app.route('/')
-def home():
-    return 'hello from server'
+from flask import send_file
+import json
 
 
 #save jpeg of the radar chart in zipfile
@@ -156,7 +145,6 @@ def best_profile():
         malus_score = []
         for j in profile_skills:
             if j in target_skills:
-                print('p',profile_skills[j],'t', target_skills[j])
                 if profile_skills[j] == 0 :
                     malus_score.append(5)   
                 elif profile_skills[j] >= target_skills[j]:
@@ -171,23 +159,7 @@ def best_profile():
         all_final_scores.append(final_score)
     final_scores_dict = dict(zip(names,all_final_scores))
     sorted_dict = dict(sorted(final_scores_dict.items(),key=lambda x: x[1],reverse=True))
-    print(sorted_dict)
-    return sorted_dict
+    json = json.dumps(sorted_dict)
+    return json
 
 
-
-
-@app.route('/get_zip_by_skills_family/')
-def get_radar_chart_by_family():
-    return generate_zipfile_by_family()
-
-@app.route('/get_radar_chart_image/')
-def get_radar_chart():
-    return generate_radar_chart_image()
-
-@app.route('/get_best_profile/')
-def get_best_profile():
-    return best_profile()
-
-if __name__=='__main__':
-    app.run(port=5000, debug=True)
