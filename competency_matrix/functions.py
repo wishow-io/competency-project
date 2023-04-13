@@ -3,6 +3,7 @@ import plotly.express as px
 import pandas as pd
 from flask import send_file
 import json
+import os
 
 
 #save jpeg of the radar chart in zipfile
