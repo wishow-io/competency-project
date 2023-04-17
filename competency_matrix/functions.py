@@ -5,7 +5,6 @@ from flask import send_file
 import json
 import os
 
-
 #save jpeg of the radar chart in zipfile
 def generate_zipfile_by_family(dict):
     for i in dict:
@@ -24,20 +23,34 @@ def generate_zipfile_by_family(dict):
                     zip_file.write(f'images/radar_{i}_{j}.jpeg')
                     os.remove(f'images/radar_{i}_{j}.jpeg')
     return "Zip file created"
-generate_zipfile_by_family()
 
 
+def get_dataframe():
+    # Convert the dictionary to the format expected by px.line_polar
+    data = {
+        "values": list(dict.values()),
+        "keys": list(dict.keys())
+    }
+    dataframe = pd.DataFrame(data)
+    print(dataframe)
+    return dataframe
 
-def generate_radar_chart_image(dict):
- 
-    # Normalize input_dict values to range 0-5
-    max_val = max(dict.values())
-    normalized_dict = {k: v / max_val * 5 for k, v in dict.items()}
+get_dataframe()
+
+
+def generate_radar_chart_image():
+    dict  = {
+        "Debugging": 1,
+        "Observability": 4,
+        "écriture de code": 3,
+        "testing": 2,
+        "understanding code": 2
+    }
 
     # Convert the dictionary to the format expected by px.line_polar
     data = {
-        "values": list(normalized_dict.values()),
-        "keys": list(normalized_dict.keys())
+        "values": list(dict.values()),
+        "keys": list(dict.keys())
     }
     df = pd.DataFrame(data)
 
@@ -47,6 +60,8 @@ def generate_radar_chart_image(dict):
     fig.write_image('images/radar_chart.jpeg')
     filename = 'images/radar_chart.jpeg'
     return send_file(filename, mimetype='image/jpeg')
+
+generate_radar_chart_image()
 
 
 def best_profile(dict):
