@@ -5,49 +5,63 @@ from flask import send_file
 import json
 import os
 
-
-#save jpeg of the radar chart in zipfile
-def generate_zipfile_by_family(dict):
+# util  : from a dict with all users get a dict of each competency level by user, by family of competency
+def get_dict_by_user_by_family(dict):
     for i in dict:
-        with zipfile.ZipFile(f'myzipfile{i}.zip', 'w') as zip_file:
-            for j in dict[i]:
-                dict[i][j] = {
-                    "values": list(dict[i][j].values()),
-                    "keys":list(dict[i][j].keys())
-                    }  
-                print(dict[i][j]) 
-                df = pd.DataFrame(dict[i][j])
-                fig = px.line_polar(df,r="values",theta="keys",line_close=True)
-                fig.update_layout(title=f'Radar de {i} pour {j}')
-                fig.write_image(f'images/radar_{i}_{j}.jpeg')
-                if not os.path.exists(f'myzipfile{i}'):
-                    zip_file.write(f'images/radar_{i}_{j}.jpeg')
-                    os.remove(f'images/radar_{i}_{j}.jpeg')
-    return "Zip file created"
-generate_zipfile_by_family()
+        for j in dict[i]:
+            dict[i][j] = {
+                "values": list(dict[i][j].values()),
+                "keys":list(dict[i][j].keys())
+                }  
+            dict_by_user_by_family = dict[i][j]
+            return dict_by_user_by_family
+        
+                   
+## from a dict to a zipfile of radar chart images : 
 
-
-
-def generate_radar_chart_image(dict):
- 
-    # Normalize input_dict values to range 0-5
-    max_val = max(dict.values())
-    normalized_dict = {k: v / max_val * 5 for k, v in dict.items()}
-
+def get_dataframe_from_dict(dict):
     # Convert the dictionary to the format expected by px.line_polar
     data = {
-        "values": list(normalized_dict.values()),
-        "keys": list(normalized_dict.keys())
+        "values": list(dict.values()),
+        "keys": list(dict.keys())
     }
-    df = pd.DataFrame(data)
+    dataframe = pd.DataFrame(data)
+    print(dataframe)
+    return dataframe
 
-    # Generate the radar chart
-    fig = px.line_polar(df, range_r=[0, 5], r="values", theta="keys", line_close=True)
+def generate_radar_chart_fig(dataframe,id):
+    #convert the dataframe into radar chart figure 
+    fig = px.line_polar(dataframe, range_r=[0, 5], r="values", theta="keys", line_close=True)
     fig.update_traces(fill='toself')
-    fig.write_image('images/radar_chart.jpeg')
-    filename = 'images/radar_chart.jpeg'
-    return send_file(filename, mimetype='image/jpeg')
+    fig.update_layout(title=f'Radar de {id}')
+    return fig
 
+def convert_fig_to_img_saved(fig,id):
+    #convert the figure of radar chart into a jpeg image
+    img = fig.write_image(f'images/radar_chart_{id}.jpeg')
+    return img 
+
+def display_img(img,id):
+    #display image on html 
+    img = f'images/radar_chart_{id}.jpeg'
+    return send_file(img, mimetype='image/jpeg')
+
+def save_img_in_zip_file(id):
+     #put my image in a zip file 
+     with zipfile.ZipFile(f'myzipfile{id}.zip', 'w') as zip_file:
+        if not os.path.exists(f'myzipfile{id}'):
+            zip_file.write(f'images/radar_chart_{id}.jpeg')
+            os.remove(f'images/radar_{id}.jpeg')
+
+def from_dict_to_zipfile(dict,id):
+    dataframe = get_dataframe_from_dict(dict)
+    fig = generate_radar_chart_fig(dataframe,id)
+    img = convert_fig_to_img_saved(fig,id)
+    display_img(img,id)
+    save_img_in_zip_file(id)
+
+
+## get the best profile compared with a target profile 
 
 def best_profile(dict):
 
