@@ -1,6 +1,6 @@
 from flask import Flask
 import os
-from functions import generate_radar_chart_image,best_profile,generate_zipfile_by_family
+from functions import *
 
 
 #creating folder images
@@ -14,13 +14,13 @@ app = Flask(__name__,template_folder='templates')
 def home():
     return 'hello from server'
 
-@app.route('/get_zip_by_skills_family/')
+@app.route('/get_zip_by_user/')
 def get_radar_chart_by_family():
-    return generate_zipfile_by_family()
+    return from_dict_to_zipfile(dict,id)
 
 @app.route('/get_radar_chart_image/')
 def get_radar_chart():
-    return generate_radar_chart_image()
+    return from_dict_to_radar_chart_displayed(dict,id)
 
 @app.route('/get_best_profile/')
 def get_best_profile():

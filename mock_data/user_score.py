@@ -34,13 +34,31 @@ all_users_competencies_score = {  "1": {
             }
         }
 
-user_scores  = {
+user_level = {
         "Debugging": 1,
         "Observability": 4,
         "écriture de code": 3,
         "testing": 2,
         "understanding code": 2
     }
+
+user_level_by_family =  {
+        
+                "Debugging & Observability": {
+                    "Debugging":"3",
+                    "Observability":"5"
+                },
+
+                "Quality & testing":{
+                    "écriture de code":"3",
+                    "testing":"2"
+                },
+
+                "Software design & architecure ": {
+                    "understanding code":"2"
+                },
+}
+
 
 target_comparison = {
     "target": {
