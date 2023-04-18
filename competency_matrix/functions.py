@@ -1,7 +1,7 @@
 import zipfile
 import plotly.express as px
 import pandas as pd
-from flask import send_file
+from flask import send_file, render_template
 import json
 import os
 from utils import *
@@ -10,12 +10,11 @@ import time
 #variable to have date in file name
 timestr = time.strftime("%Y%m%d-%H%M%S")
 
+
 ## from a simple dict to a zipfile of radar chart images (mock data : user_level): 
 
 def get_dataframe_from_dict(dict):
-    
- 
-     # Convert the dictionary to the format expected by px.line_polar
+    # Convert the dictionary to the format expected by px.line_polar
     data = {
         "values": list(dict.values()),
         "keys": list(dict.keys())
@@ -32,7 +31,6 @@ def generate_radar_chart_fig(dataframe,id,family):
 
 def convert_fig_to_img_saved(fig,id,family):
     #convert the figure of radar chart into a jpeg image
-    
     if not os.path.exists(f'images/{id}/'):
         os.mkdir(f'images/{id}/')  
     img = fig.write_image(f'images/{id}/radar_chart_{id}_{family}_{timestr}.jpeg')
@@ -48,9 +46,22 @@ def save_img_in_zip_file(id,family):
     #put my image in a zip file
     with zipfile.ZipFile(f'zip/zipfile{id}.zip', 'w') as zip_file:
         zip_file.write(f'images/{id}/radar_chart_{id}_{family}_{timestr}.jpeg')
-        return 'saved'
-       
+        return 
 
+def render_download_button():
+    return render_template('download.html')
+    
+
+def download_file():
+    id = 2
+    filename = f'zip/zipfile{id}.zip'
+    # file_path = request.args.get(f'zip/zipfile{id}.zip')
+    path = os.path.join(os.getcwd(), filename)
+
+    if path is None:
+        raise ValueError("Invalid file path")
+    
+    return send_file(path,mimetype='application/zip', as_attachment=True, download_name=f'zipfile{id}.zip')
 
 def from_dict_to_zipfile():
     id = 2
@@ -78,7 +89,9 @@ def from_dict_to_zipfile():
         fig = generate_radar_chart_fig(dataframe,id,family)
         convert_fig_to_img_saved(fig,id,family)
         save_img_in_zip_file(id,family)
-    return 'zip files created'
+        
+        return render_download_button()
+
          
 
 

@@ -1,6 +1,9 @@
-from flask import Flask
+
+from flask import Flask, request
 import os
 from functions import *
+
+
 
 
 #creating folder images
@@ -27,6 +30,10 @@ def get_radar_chart():
 @app.route('/get_best_profile/')
 def get_best_profile():
     return best_profile()
+
+@app.route('/download/')
+def download():
+    return download_file()
 
 if __name__=='__main__':
     app.run(port=5000, debug=True)
