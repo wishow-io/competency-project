@@ -4,61 +4,102 @@ import pandas as pd
 from flask import send_file
 import json
 import os
+from utils import *
+import time
 
+#variable to have date in file name
+timestr = time.strftime("%Y%m%d-%H%M%S")
 
 ## from a simple dict to a zipfile of radar chart images (mock data : user_level): 
 
 def get_dataframe_from_dict(dict):
-    # Convert the dictionary to the format expected by px.line_polar
+    
+ 
+     # Convert the dictionary to the format expected by px.line_polar
     data = {
         "values": list(dict.values()),
         "keys": list(dict.keys())
     }
     dataframe = pd.DataFrame(data)
-    print(dataframe)
     return dataframe
 
-def generate_radar_chart_fig(dataframe,id):
+def generate_radar_chart_fig(dataframe,id,family):
     #convert the dataframe into radar chart figure 
     fig = px.line_polar(dataframe, range_r=[0, 5], r="values", theta="keys", line_close=True)
     fig.update_traces(fill='toself')
-    fig.update_layout(title=f'Radar de {id}')
+    fig.update_layout(title=f'Radar Chart de {id}, famille : {family}')
     return fig
 
-def convert_fig_to_img_saved(fig,id):
+def convert_fig_to_img_saved(fig,id,family):
     #convert the figure of radar chart into a jpeg image
-    img = fig.write_image(f'images/radar_chart_{id}.jpeg')
+    
+    if not os.path.exists(f'images/{id}/'):
+        os.mkdir(f'images/{id}/')  
+    img = fig.write_image(f'images/{id}/radar_chart_{id}_{family}_{timestr}.jpeg')
     return img 
 
-def display_img(img,id):
+
+def display_img(img,id,family):
     #display image on html 
-    img = f'images/radar_chart_{id}.jpeg'
+    img = f'images/{id}/radar_chart_{id}_{family}_{timestr}.jpeg'
     return send_file(img, mimetype='image/jpeg')
 
-def save_img_in_zip_file(id):
-     #put my image in a zip file 
-     with zipfile.ZipFile(f'myzipfile{id}.zip', 'w') as zip_file:
-        if not os.path.exists(f'myzipfile{id}'):
-            zip_file.write(f'images/radar_chart_{id}.jpeg')
-            os.remove(f'images/radar_{id}.jpeg')
+def save_img_in_zip_file(id,family):
+    #put my image in a zip file
+    with zipfile.ZipFile(f'zip/zipfile{id}.zip', 'w') as zip_file:
+        zip_file.write(f'images/{id}/radar_chart_{id}_{family}_{timestr}.jpeg')
+        return 'saved'
+       
 
 
-def from_dict_to_zipfile(dict,id):
+def from_dict_to_zipfile():
+    id = 2
+    family = "test"
+    dict =  {
+        
+                "Debugging & Observability": {
+                    "Debugging":"3",
+                    "Observability":"5"
+                },
+
+                "Quality & testing":{
+                    "écriture de code":"3",
+                    "testing":"2"
+                },
+
+                "Software design & architecure ": {
+                    "understanding code":"2"
+                },
+    }
+    for family in dict:
+        dict_by_family = dict[family] 
+        family = family
+        dataframe = get_dataframe_from_dict(dict_by_family)
+        fig = generate_radar_chart_fig(dataframe,id,family)
+        convert_fig_to_img_saved(fig,id,family)
+        save_img_in_zip_file(id,family)
+    return 'zip files created'
+         
+
+
+
+def from_dict_to_radar_chart_displayed():
+    id = 2
+    family = "test"
+    dict = {
+        "Debugging": 1,
+        "Observability": 4,
+        "écriture de code": 3,
+        "testing": 2,
+        "understanding code": 2
+    }
     dataframe = get_dataframe_from_dict(dict)
-    fig = generate_radar_chart_fig(dataframe,id)
-    img = convert_fig_to_img_saved(fig,id)
-    display_img(img,id)
-    save_img_in_zip_file(id)
-
-def from_dict_to_radar_chart_displayed(dict,id):
-    dataframe = get_dataframe_from_dict(dict)
-    fig = generate_radar_chart_fig(dataframe,id)
-    img = convert_fig_to_img_saved(fig,id)
-    display_img(img,id)
+    fig = generate_radar_chart_fig(dataframe,id,family)
+    img = convert_fig_to_img_saved(fig,id,family)
+    return display_img(img,id,family)
 
 
 ## get the best profile compared with a target profile 
-
 def best_profile(dict):
 
     target_skills = dict["target"]
@@ -89,6 +130,6 @@ def best_profile(dict):
     final_scores_dict = dict(zip(names,all_final_scores))
     sorted_dict = dict(sorted(final_scores_dict.items(),key=lambda x: x[1],reverse=True))
     sorted_json = json.dumps(sorted_dict)
-    return sorted_json
+    return sorted_json 
 
 
