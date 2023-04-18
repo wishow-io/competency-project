@@ -31,7 +31,7 @@ def get_radar_chart():
 def get_best_profile():
     return best_profile()
 
-@app.route('/download/')
+@app.route('/download/<int:id>/')
 def download():
     return download_file()
 

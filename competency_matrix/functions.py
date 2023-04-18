@@ -52,36 +52,13 @@ def render_download_button():
     return render_template('download.html')
     
 
-def download_file():
-    id = 2
+def download_file(id):
     filename = f'zip/zipfile{id}.zip'
-    # file_path = request.args.get(f'zip/zipfile{id}.zip')
     path = os.path.join(os.getcwd(), filename)
-
-    if path is None:
-        raise ValueError("Invalid file path")
-    
     return send_file(path,mimetype='application/zip', as_attachment=True, download_name=f'zipfile{id}.zip')
 
-def from_dict_to_zipfile():
-    id = 2
-    family = "test"
-    dict =  {
-        
-                "Debugging & Observability": {
-                    "Debugging":"3",
-                    "Observability":"5"
-                },
-
-                "Quality & testing":{
-                    "écriture de code":"3",
-                    "testing":"2"
-                },
-
-                "Software design & architecure ": {
-                    "understanding code":"2"
-                },
-    }
+def from_dict_to_zipfile(dict,id,family):
+  
     for family in dict:
         dict_by_family = dict[family] 
         family = family
@@ -92,20 +69,8 @@ def from_dict_to_zipfile():
         
         return render_download_button()
 
-         
 
-
-
-def from_dict_to_radar_chart_displayed():
-    id = 2
-    family = "test"
-    dict = {
-        "Debugging": 1,
-        "Observability": 4,
-        "écriture de code": 3,
-        "testing": 2,
-        "understanding code": 2
-    }
+def from_dict_to_radar_chart_displayed(dict,id,family):
     dataframe = get_dataframe_from_dict(dict)
     fig = generate_radar_chart_fig(dataframe,id,family)
     img = convert_fig_to_img_saved(fig,id,family)
