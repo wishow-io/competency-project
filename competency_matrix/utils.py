@@ -13,25 +13,5 @@ def get_dict_by_user_by_family(dict):
             return dict_by_user_by_family
     
 
-def get_dict_by_family():
-    dict =  {
-        
-            "Debugging & Observability": {
-                    "Debugging":"3",
-                    "Observability":"5"
-                },
 
-            "Quality & testing":{
-                    "écriture de code":"3",
-                    "testing":"2"
-                },
-
-            "Software design & architecure ": {
-                    "understanding code":"2"
-                }
-
-    }
-    for i in dict:
-        dict_by_family = dict[i] 
-    return dict_by_family 
     

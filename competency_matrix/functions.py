@@ -10,7 +10,6 @@ import time
 #variable to have date in file name
 timestr = time.strftime("%Y%m%d-%H%M%S")
 
-
 ## from a simple dict to a zipfile of radar chart images (mock data : user_level): 
 
 def get_dataframe_from_dict(dict):
@@ -57,8 +56,8 @@ def download_file(id):
     path = os.path.join(os.getcwd(), filename)
     return send_file(path,mimetype='application/zip', as_attachment=True, download_name=f'zipfile{id}.zip')
 
+
 def from_dict_to_zipfile(dict,id,family):
-  
     for family in dict:
         dict_by_family = dict[family] 
         family = family

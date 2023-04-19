@@ -1,4 +1,6 @@
 
+id = 2
+family = 'Test Family'
 
 all_users_competencies_score = {  "1": {
                 "Debugging & Observability": {
