@@ -1,6 +1,5 @@
 
 from flask import Flask
-import os
 from data_functions import *
 from mock_data.user_score import *
 

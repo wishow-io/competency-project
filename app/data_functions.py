@@ -6,6 +6,7 @@ import json
 import os
 from constants import *
 from server_functions import *
+from json2html import *
 
 
 # from a simple dict to a zipfile of radar chart images(mock: user_level): 
@@ -97,7 +98,8 @@ def best_profile(a_dict):
     final_scores_dict = dict(zip(names,all_final_scores))
     sorted_dict = dict(sorted(final_scores_dict.items(),key=lambda x: x[1],reverse=True))
     sorted_json = json.dumps(sorted_dict)
-    return sorted_json 
+    response = json2html.convert(json = sorted_json)
+    return response
 
 
 ##In progress : divide this function(up)
