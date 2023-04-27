@@ -1,25 +1,23 @@
 import zipfile
 import plotly.express as px
 import pandas as pd
-from flask import send_file, render_template
+from flask import send_file
 import json
 import os
-import time
 from constants import *
 from server_functions import *
 
 
-## from a simple dict to a zipfile of radar chart images (mock data : user_level): 
-
+# from a simple dict to a zipfile of radar chart images(mock: user_level): 
 def get_dataframe_from_dict(dict):
-     # Convert the dictionary to the format expected by px.line_polar
+    # Convert the dictionary to the format expected by px.line_polar
     df = pd.DataFrame({ 
         "values": list(dict.values()), 
         "keys": list(dict.keys())})
     return df
 
 def generate_radar_chart_fig(dataframe,id,family):
-    #convert the dataframe into radar chart figure 
+    # Convert the dataframe into radar chart figure 
     fig = px.line_polar(dataframe, range_r=[0, 5], r="values", theta="keys", line_close=True)
     fig.update_traces(fill='toself')
     fig.update_layout(title=f'Radar Chart de {id}, famille : {family}')
@@ -33,20 +31,12 @@ def convert_fig_to_image(fig,id,family):
     img = fig.write_image(f'{dir_images}/{id}/radar_chart_{id}_{family}_{timestr}.jpeg')
     return img 
 
-# def display_img(img,id,family):
-#     #display image on html 
-#     img = f'{dir_images}/{id}/radar_chart_{id}_{family}_{timestr}.jpeg'
-#     return send_file(img, mimetype='image/jpeg')
-
 def save_img_in_zip_file(id,family):
-    #put my image in a zip file
+    # Put image in a zip file
     with zipfile.ZipFile(f'{dir_zip}/zipfile{id}.zip', 'w') as zip_file:
         zip_file.write(f'{dir_images}/{id}/radar_chart_{id}_{family}_{timestr}.jpeg')
         return 
 
-def render_download_button():
-    return render_template('download.html')
-    
 
 def download_file(id):
     filename = f'{dir_zip}/zipfile{id}.zip'
@@ -109,6 +99,8 @@ def best_profile(a_dict):
     sorted_json = json.dumps(sorted_dict)
     return sorted_json 
 
+
+##In progress : divide this function(up)
 # def get_score(profile_level, target_level):
 #     if profile_level == 0:
 #         return - 5
