@@ -25,4 +25,4 @@ In order to retrieve all necessary dependencies, you need to:
 
 **Run tests**
 
-> > $
+> > $python -m unittest tests/test_functions.py

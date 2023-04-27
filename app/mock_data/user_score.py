@@ -1,6 +1,6 @@
 
-id = 2
-family = 'Test Family'
+id_test = 2
+family_test = 'Test Family'
 
 all_users_competencies_score = {  "1": {
                 "Debugging & Observability": {
