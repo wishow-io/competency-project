@@ -2,63 +2,63 @@
 id_test = 2
 family_test = 'Test Family'
 
-all_users_competencies_score = {  "1": {
-                "Debugging & Observability": {
-                    "Debugging":"1",
-                    "Observability":"4"
-                },
+all_users_competencies_score = {"1": {
+    "Debugging & Observability": {
+        "Debugging": "1",
+        "Observability": "4"
+    },
 
-                "Quality & testing": {
-                    "écriture de code":"4",
-                    "testing":"3"
-                },
+    "Quality & testing": {
+        "écriture de code": "4",
+        "testing": "3"
+    },
 
-                "Software design & architecure ": {
-                    "understanding code":"2"
-                },
-            },
+    "Software design & architecure ": {
+        "understanding code": "2"
+    },
+},
 
-            "2": {
+    "2": {
 
-                "Debugging & Observability": {
-                    "Debugging":"3",
-                    "Observability":"5"
-                },
+    "Debugging & Observability": {
+        "Debugging": "3",
+        "Observability": "5"
+    },
 
-                "Quality & testing":{
-                    "écriture de code":"3",
-                    "testing":"2"
-                },
+    "Quality & testing": {
+        "écriture de code": "3",
+        "testing": "2"
+    },
 
-                "Software design & architecure ": {
-                    "understanding code":"2"
-                },
-            }
-        }
+    "Software design & architecure ": {
+        "understanding code": "2"
+    },
+}
+}
 
 user_level = {
-        "Debugging": 1,
-        "Observability": 4,
-        "écriture de code": 3,
-        "testing": 2,
-        "understanding code": 2
-    }
+    "Debugging": 1,
+    "Observability": 4,
+    "écriture de code": 3,
+    "testing": 2,
+    "understanding code": 2
+}
 
-user_level_by_family =  {
-        
-                "Debugging & Observability": {
-                    "Debugging":"3",
-                    "Observability":"5"
-                },
+user_level_by_family = {
 
-                "Quality & testing":{
-                    "écriture de code":"3",
-                    "testing":"2"
-                },
+    "Debugging & Observability": {
+        "Debugging": "3",
+        "Observability": "5"
+    },
 
-                "Software design & architecure ": {
-                    "understanding code":"2"
-                },
+    "Quality & testing": {
+        "écriture de code": "3",
+        "testing": "2"
+    },
+
+    "Software design & architecure ": {
+        "understanding code": "2"
+    },
 }
 
 

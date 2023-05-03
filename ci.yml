@@ -40,3 +40,6 @@ jobs:
       - name: Test with unittest
         run: |
           poetry run python -m unittest discover
+      -name: Run project 
+        run: |
+          python3 routes.py

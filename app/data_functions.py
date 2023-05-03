@@ -7,6 +7,7 @@ import os
 from constants import *
 from server_functions import *
 from json2html import *
+import plotly.graph_objects as go
 
 
 # from a simple dict to a zipfile of radar chart images(mock: user_level): 
@@ -17,16 +18,31 @@ def get_dataframe_from_dict(dict):
         "keys": list(dict.keys())})
     return df
 
-def generate_radar_chart_fig(dataframe,id,family):
-    # Convert the dataframe into radar chart figure 
-    fig = px.line_polar(dataframe, range_r=[0, 5], r="values", theta="keys", line_close=True)
-    fig.update_traces(fill='toself')
-    fig.update_layout(title=f'Radar Chart de {id}, famille : {family}')
+def generate_radar_chart_fig(data_dict,id,family):
+    score = list(data_dict.values())
+    skills = list(data_dict.keys())
+    fig = go.Figure(data=go.Scatterpolar(
+    r=score,
+    theta=skills,
+    fill='toself'
+    ))
+
+    fig.update_layout(
+    polar=dict(
+        radialaxis=dict(
+        visible=True, range=[0, 5]
+        ),
+    ),title=f'Radar Chart de {id}, famille : {family}',
+    showlegend=False
+    )
     return fig
 
 def create_directory_by_id(id):
-    if not os.path.exists(f'{dir_images}/{id}/'):
-        os.mkdir((f'{dir_images}/{id}/')) 
+    path = 'competency_project\app\generated_files\images\2'
+    # if not os.path.exists(f'{dir_images}/{id}'):
+    # if not os.path.exists(path):
+    #     os.mkdir((f'{dir_images}/{id}'))
+
 
 def convert_fig_to_image(fig,id,family):
     img = fig.write_image(f'{dir_images}/{id}/radar_chart_{id}_{family}_{timestr}.jpeg')
@@ -45,9 +61,9 @@ def download_file(id):
     return send_file(path,mimetype='application/zip', as_attachment=True, download_name=f'zipfile{id}.zip')
 
 
-def from_dict_to_zipfile(dict,id,family):
-    for family in dict:
-        dict_by_family = dict[family] 
+def from_dict_to_zipfile(data_dict,id,family):
+    for family in data_dict:
+        dict_by_family = data_dict[family] 
         family = family
         dataframe = get_dataframe_from_dict(dict_by_family)
         fig = generate_radar_chart_fig(dataframe,id,family)
@@ -58,9 +74,9 @@ def from_dict_to_zipfile(dict,id,family):
         return render_download_button()
 
 
-def from_dict_to_radar_chart_displayed(dict,id,family):
-    dataframe = get_dataframe_from_dict(dict)
-    fig = generate_radar_chart_fig(dataframe,id,family)
+def from_dict_to_radar_chart_displayed(data_dict,id,family):
+    # dataframe = get_dataframe_from_dict(dict)
+    fig = generate_radar_chart_fig(data_dict,id,family)
     create_directory_by_id(id)
     img = convert_fig_to_image(fig,id,family)
     return display_img(img,id,family)
