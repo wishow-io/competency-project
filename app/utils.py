@@ -1,4 +1,5 @@
-# utils to manipulate and access nested dictionaries
+import os 
+from constants import *
 
 # util  : from a dict with all users get a dict of each competency level by user, by family of competency
 def get_dict_by_user_by_family(dict):
@@ -11,3 +12,5 @@ def get_dict_by_user_by_family(dict):
             }
             dict_by_user_by_family = dict[i][j]
             return dict_by_user_by_family
+
+

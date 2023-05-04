@@ -5,6 +5,7 @@ from flask import send_file
 import json
 import os
 from constants import *
+from utils import *
 from server_functions import *
 from json2html import *
 import plotly.graph_objects as go
@@ -37,16 +38,22 @@ def generate_radar_chart_fig(data_dict,id,family):
     )
     return fig
 
-def create_directory_by_id(id):
-    path = 'competency_project\app\generated_files\images\2'
-    # if not os.path.exists(f'{dir_images}/{id}'):
-    # if not os.path.exists(path):
-    #     os.mkdir((f'{dir_images}/{id}'))
-
 
 def convert_fig_to_image(fig,id,family):
-    img = fig.write_image(f'{dir_images}/{id}/radar_chart_{id}_{family}_{timestr}.jpeg')
-    return img 
+    dir_id = f'{id}'
+    print(dir_id)
+    if not os.path.exists(dir_files):
+        os.mkdir(dir_files)
+    if not os.path.exists(dir_files):
+        os.mkdir(dir_files_images)
+    dir_files_images_id = os.path.join(dir_files_images,dir_id)
+    if not os.path.exists(dir_files_images_id):
+        os.mkdir(dir_files_images_id)
+    image_path = os.path.join(dir_files_images_id,f'radar_chart_{id}_{family}_{timestr}.jpeg')
+    if not os.path.exists(image_path):
+        img = fig.write_image(image_path)
+    return img
+
 
 def save_img_in_zip_file(id,family):
     # Put image in a zip file
@@ -67,7 +74,7 @@ def from_dict_to_zipfile(data_dict,id,family):
         family = family
         dataframe = get_dataframe_from_dict(dict_by_family)
         fig = generate_radar_chart_fig(dataframe,id,family)
-        create_directory_by_id(id)
+        # create_directory_by_id(id)
         convert_fig_to_image(fig,id,family)
         save_img_in_zip_file(id,family)
         
@@ -75,9 +82,7 @@ def from_dict_to_zipfile(data_dict,id,family):
 
 
 def from_dict_to_radar_chart_displayed(data_dict,id,family):
-    # dataframe = get_dataframe_from_dict(dict)
     fig = generate_radar_chart_fig(data_dict,id,family)
-    create_directory_by_id(id)
     img = convert_fig_to_image(fig,id,family)
     return display_img(img,id,family)
 

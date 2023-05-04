@@ -1,7 +1,12 @@
 import time
+import os 
 
-dir_images = "generated_files/images"
-dir_zip = "generated_files/zip"
+
+dir_files = "app/generated_files"
+dir_images = "images"
+dir_files_images = os.path.join(dir_files, dir_images)
+
+    
 
 # variable to have date in file name
 timestr = time.strftime("%Y%m%d-%H%M%S")

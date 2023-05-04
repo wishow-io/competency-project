@@ -1,11 +1,12 @@
 from constants import *
 from flask import send_file, render_template
 import os
+from utils import *
 
 
 def display_img(img, id, family):
     # display image on html
-    img = f'{dir_images}/{id}/radar_chart_{id}_{family}_{timestr}.jpeg'
+    img = f'generated_files/images/{id}/radar_chart_{id}_{family}_{timestr}.jpeg'
     return send_file(img, mimetype='image/jpeg')
 
 
