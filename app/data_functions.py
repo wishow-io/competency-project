@@ -53,6 +53,7 @@ def from_dict_to_zipfile(data_dict, id,family):
             create_files_zip_dir()
             fig.write_image(f'radar_chart_{id}_{family}_{timestr}.jpeg')
             zip_file.write(f'radar_chart_{id}_{family}_{timestr}.jpeg')
+            os.remove(f'radar_chart_{id}_{family}_{timestr}.jpeg')
     return render_download_button() 
 
 def from_dict_to_radar_chart_displayed(data_dict,id,family):
