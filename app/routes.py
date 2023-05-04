@@ -13,13 +13,12 @@ def home():
     return 'hello from server'
 
 
-@app.route('/get_zip_by_user/<int:id>/<string:family>')
-def get_zip_by_user(id, family):
-    dict = user_level_by_family
+@app.route('/get_zip_by_user/')
+def get_zip_by_user():
+    data_dict = user_level_by_family
     id = 2
-    family = "family1"
-    return from_dict_to_zipfile(dict, id, family)
-
+    family= 'test'
+    return from_dict_to_zipfile(data_dict, id,family)
 
 @app.route('/get_radar_chart_image/')
 def get_radar_chart_image():
@@ -35,9 +34,9 @@ def get_best_profile():
     return best_profile(dict)
 
 
-@app.route('/download/<int:id>')
-def download(id):
-    id = id_test
+@app.route('/download/')
+def download():
+    id = 2
     return download_file(id)
 
 

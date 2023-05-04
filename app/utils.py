@@ -14,3 +14,6 @@ def get_dict_by_user_by_family(dict):
             return dict_by_user_by_family
 
 
+def create_files_zip_dir():
+    if not os.path.exists(dir_files_zip):
+        os.mkdir(dir_files_zip)
