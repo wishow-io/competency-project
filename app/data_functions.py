@@ -8,7 +8,7 @@ from json2html import *
 import plotly.graph_objects as go
 
 
-def generate_radar_chart_fig(data_dict,id,family):
+def generate_radar_chart_fig(data_dict,id):
     score = list(data_dict.values())
     skills = list(data_dict.keys())
     fig = go.Figure(data=go.Scatterpolar(
@@ -16,13 +16,12 @@ def generate_radar_chart_fig(data_dict,id,family):
     theta=skills,
     fill='toself'
     ))
-
     fig.update_layout(
     polar=dict(
         radialaxis=dict(
         visible=True, range=[0, 5]
         )),
-    title=f'Radar Chart de {id}, famille : {family}',
+    title=f'Radar Chart de {id}',
     showlegend=False
     )
     return fig
@@ -54,7 +53,7 @@ def generate_polar_bar_chart_fig(data_dict,id,family):
     return fig
 
 
-def save_img_in_file(fig,id,family):
+def save_img_in_file(fig,id):
     dir_id = f'{id}'
     if not os.path.exists(dir_files):
         os.mkdir(dir_files)
@@ -63,9 +62,9 @@ def save_img_in_file(fig,id,family):
     dir_files_images_id = os.path.join(dir_files_images,dir_id)
     if not os.path.exists(dir_files_images_id):
         os.mkdir(dir_files_images_id)    
-    path = f'radar_chart_{id}_{family}_{timestr}.jpeg'
+    path = f'radar_chart_{id}_{timestr}.jpeg'
     os.path.join(dir_files_images_id,path)
-    img = fig.write_image(f'{dir_files_images_id}/radar_chart_{id}_{family}_{timestr}.jpeg')
+    img = fig.write_image(f'{dir_files_images_id}/radar_chart_{id}_{timestr}.jpeg')
     return img
 
     
@@ -82,10 +81,10 @@ def from_dict_to_zipfile(data_dict, id,family):
             os.remove(f'polar_bar_chart_{id}_{family}_{timestr}.jpeg')
     return render_download_button() 
 
-def from_dict_to_radar_chart_displayed(data_dict,id,family):
-    fig = generate_radar_chart_fig(data_dict,id,family)
-    img = save_img_in_file(fig,id,family)
-    return display_img(img,id,family)
+def from_dict_to_radar_chart_displayed(data_dict,id):
+    fig = generate_radar_chart_fig(data_dict,id)
+    img = save_img_in_file(fig,id)
+    return display_img(img,id)
 
 
 
@@ -123,32 +122,3 @@ def best_profile(a_dict):
     response = json2html.convert(json = sorted_json)
     return response
 
-
-##In progress : divide this function(up)
-# def get_score(profile_level, target_level):
-#     if profile_level == 0:
-#         return - 5
-#     bonus_malus = target_level - profile_level
-#     return  bonus_malus
-
-# def get_profile_score(profile_skills, target_skills):
-#     score = 0 
-#     for i in profile_skills : 
-#         score += get_profile_score(profile_skills[i], target_skills[i])
-#     return score 
-
-# def best_profile(profiles,target_skills):
-#     profiles_score = {}
-#     for i in profiles:
-#         profiles[i["name"]] = get_profile_score(profiles["skills"], target_skills)
-#     sorted_dict =dict(sorted(profiles_score.items(), key=lambda x: x[1], reverse=True))
-#     sorted_json = json.dumps(sorted_dict)
-#     return sorted_json
-
-# def get_best_profile(dict):
-#     target_skills = dict["target"]
-#     profiles = dict["profiles"]
-#     profile_skills = i["skills"]
-
-#     for i in profiles:
-#         get_score(profile_skills,)
