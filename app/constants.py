@@ -2,7 +2,7 @@ import time
 import os 
 
 
-dir_files = "app/generated_files"
+dir_files = "generated_files"
 dir_images = "images"
 dir_zip = "zip"
 dir_files_zip = os.path.join(dir_files,dir_zip)

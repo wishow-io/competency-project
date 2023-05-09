@@ -1,7 +1,4 @@
 import zipfile
-import plotly.express as px
-import pandas as pd
-from flask import send_file
 import json
 import os
 from constants import *
@@ -24,9 +21,35 @@ def generate_radar_chart_fig(data_dict,id,family):
     polar=dict(
         radialaxis=dict(
         visible=True, range=[0, 5]
-        ),
-    ),title=f'Radar Chart de {id}, famille : {family}',
+        )),
+    title=f'Radar Chart de {id}, famille : {family}',
     showlegend=False
+    )
+    return fig
+
+#alternative to radar chart when only two values to show
+def generate_polar_bar_chart_fig(data_dict,id,family):
+    score = list(data_dict.values())
+    int_score = [int(x) for x in score]
+    skills = list(data_dict.keys())
+    fig = go.Figure()
+    fig.add_trace(go.Barpolar(
+        r=int_score,
+        theta=skills,
+        width=[0.4, 0.4],
+        marker=dict(
+            line=dict(
+                width=1)
+        ),
+        name='Skills'
+    ))
+    fig.update_layout(
+        polar=dict(
+            radialaxis=dict(
+                visible=True,
+                range=[0, 5]
+            )),title=f'Polar bar chart de {id}, famille : {family}',
+        showlegend=False
     )
     return fig
 
@@ -35,25 +58,28 @@ def save_img_in_file(fig,id,family):
     dir_id = f'{id}'
     if not os.path.exists(dir_files):
         os.mkdir(dir_files)
-    if not os.path.exists(dir_files):
+    if not os.path.exists(dir_files_images):
         os.mkdir(dir_files_images)
     dir_files_images_id = os.path.join(dir_files_images,dir_id)
     if not os.path.exists(dir_files_images_id):
-        os.mkdir(dir_files_images_id)
-        os.path.join(dir_files_images_id,path)
+        os.mkdir(dir_files_images_id)    
     path = f'radar_chart_{id}_{family}_{timestr}.jpeg'
+    os.path.join(dir_files_images_id,path)
     img = fig.write_image(f'{dir_files_images_id}/radar_chart_{id}_{family}_{timestr}.jpeg')
     return img
+
     
 
 def from_dict_to_zipfile(data_dict, id,family):
+    if not os.path.exists(dir_files_zip):
+        os.mkdir(dir_files_zip)
     with zipfile.ZipFile(f'{dir_files_zip}/zipfile{id}.zip', 'w') as zip_file:
         for family, dict_by_family in data_dict.items():
-            fig = generate_radar_chart_fig(dict_by_family, id, family)
+            fig = generate_polar_bar_chart_fig(dict_by_family, id, family)
             create_files_zip_dir()
-            fig.write_image(f'radar_chart_{id}_{family}_{timestr}.jpeg')
-            zip_file.write(f'radar_chart_{id}_{family}_{timestr}.jpeg')
-            os.remove(f'radar_chart_{id}_{family}_{timestr}.jpeg')
+            fig.write_image(f'polar_bar_chart_{id}_{family}_{timestr}.jpeg')
+            zip_file.write(f'polar_bar_chart_{id}_{family}_{timestr}.jpeg')
+            os.remove(f'polar_bar_chart_{id}_{family}_{timestr}.jpeg')
     return render_download_button() 
 
 def from_dict_to_radar_chart_displayed(data_dict,id,family):
