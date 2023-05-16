@@ -88,37 +88,48 @@ def from_dict_to_radar_chart_displayed(data_dict,id):
 
 
 
-## get the best profile compared with a target profile 
-def best_profile(a_dict):
+# get the best profile compared with a target profile 
+def calculate_bonus_score(profile_skills, target_skills):
+    bonus_score = []
+    for skill, value in profile_skills.items():
+        if skill in target_skills:
+            if value >= target_skills[skill]:
+                bonus_result = value - target_skills[skill]
+                bonus_score.append(bonus_result)
+    return sum(bonus_score)
 
+def calculate_malus_score(profile_skills, target_skills):
+    malus_score = []
+    for skill, value in profile_skills.items():
+        if skill in target_skills:
+            if value == 0:
+                malus_score.append(5)
+            elif value < target_skills[skill]:
+                malus_result = target_skills[skill] - value
+                malus_score.append(malus_result)
+    return sum(malus_score)
+
+def calculate_final_score(profile, target_skills):
+    profile_skills = profile["skills"]
+    bonus_sum = calculate_bonus_score(profile_skills, target_skills)
+    malus_sum = calculate_malus_score(profile_skills, target_skills)
+    final_score = bonus_sum - malus_sum
+    return final_score
+
+def best_profile(a_dict):
     target_skills = a_dict["target"]
     profiles = a_dict["profiles"]
     all_final_scores = []
     names = []
-    
-    for i in profiles:
-        name = i["name"]
-        names.append(name)
-        profile_skills = i["skills"]
-        bonus_score = []
-        malus_score = []
-        for j in profile_skills:
-            if j in target_skills:
-                if profile_skills[j] == 0 :
-                    malus_score.append(5)   
-                elif profile_skills[j] >= target_skills[j]:
-                    bonus_result = profile_skills[j] - target_skills[j]
-                    bonus_score.append(bonus_result)     
-                else:
-                    malus_result = target_skills[j] - profile_skills[j]
-                    malus_score.append(malus_result)
-        bonus_sum = sum(bonus_score)
-        malus_sum = sum(malus_score)
-        final_score = bonus_sum - malus_sum
-        all_final_scores.append(final_score)
-    final_scores_dict = dict(zip(names,all_final_scores))
-    sorted_dict = dict(sorted(final_scores_dict.items(),key=lambda x: x[1],reverse=True))
-    sorted_json = json.dumps(sorted_dict)
-    response = json2html.convert(json = sorted_json)
-    return response
 
+    for profile in profiles:
+        name = profile["name"]
+        names.append(name)
+        final_score = calculate_final_score(profile, target_skills)
+        all_final_scores.append(final_score)
+
+    final_scores_dict = dict(zip(names, all_final_scores))
+    sorted_dict = dict(sorted(final_scores_dict.items(), key=lambda x: x[1], reverse=True))
+    sorted_json = json.dumps(sorted_dict)
+    response = json2html.convert(json=sorted_json)
+    return response
