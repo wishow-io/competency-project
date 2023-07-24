@@ -19,9 +19,13 @@ In order to retrieve all necessary dependencies, you need to:
 > > $poetry shell (to activate virtual environment)
 > > $poetry install (to install dependencies)
 
+- Create your env file (from .env_EXEMPLE) with port and server adress
+
 **Run project**
 
-> > $python3 app.py
+> > $python3 routes.py
+
+and try all endpoints of 'routes.py'
 
 **Run tests**
 
