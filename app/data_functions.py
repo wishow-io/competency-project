@@ -71,16 +71,21 @@ def save_img_in_file(fig, id):
     return img
 
 
-def from_dict_to_zipfile(data_dict, id, family):
+def from_dict_to_zipfile(data_dict, id):
     if not os.path.exists(dir_files_zip):
         os.mkdir(dir_files_zip)
+
     with zipfile.ZipFile(f'{dir_files_zip}/zipfile{id}.zip', 'w') as zip_file:
         for family, dict_by_family in data_dict.items():
             fig = generate_polar_bar_chart_fig(dict_by_family, id, family)
             create_files_zip_dir()
-            fig.write_image(f'polar_bar_chart_{id}_{family}_{timestr}.jpeg')
-            zip_file.writestr(f'polar_bar_chart_{id}_{family}_{timestr}.jpeg')
-            # os.remove(f'polar_bar_chart_{id}_{family}_{timestr}.jpeg')
+            filename = f'polar_bar_chart_{id}_{family}_{timestr}.jpeg'
+            fig.write_image(filename)
+            with open(filename, 'rb') as file:
+                jpeg_data = file.read()
+            zip_file.writestr(filename, jpeg_data)
+            os.remove(filename)
+
     return render_download_button()
 
 

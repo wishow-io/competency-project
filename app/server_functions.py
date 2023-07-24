@@ -15,5 +15,6 @@ def render_download_button():
 
 def download_file(id, filename):
     filename = f'{dir_files_zip}/zipfile{id}.zip'
+    print(filename)
     path = os.path.join(os.getcwd(), filename)
     return send_file(path, mimetype='application/zip', as_attachment=True, download_name=f'zipfile{id}.zip')

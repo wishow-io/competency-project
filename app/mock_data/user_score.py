@@ -72,7 +72,7 @@ target_comparison = {
     },
     "profiles": [
         {
-            "name": "sdfsf sdfsfsdf",
+            "name": "jean",
             "skills": {
                 "skill1": 4,
                 "skill2": 2,
@@ -82,7 +82,7 @@ target_comparison = {
             }
         },
         {
-            "name": "ythfgh cccccc",
+            "name": "marie",
             "skills": {
                 "skill1": 5,
                 "skill2": 5,
@@ -92,7 +92,7 @@ target_comparison = {
             }
         },
         {
-            "name": "fdsfsfd fsfsf",
+            "name": "marc",
             "skills": {
                 "skill1": 4,
                 "skill2": 3,
