@@ -22,7 +22,7 @@ def generate_radar_chart_fig(data_dict):
             radialaxis=dict(
                 visible=True, range=[0, 5]
             )),
-        title = f'Radar Chart de {name}',
+        title=f'Radar Chart de {name}',
         showlegend=False
     )
     return fig
@@ -30,7 +30,7 @@ def generate_radar_chart_fig(data_dict):
 # alternative to radar chart when only two values to show
 
 
-def generate_polar_bar_chart_fig(data_dict, id, family):
+def generate_polar_bar_chart_fig(data_dict, name, family):
     score = list(data_dict.values())
     int_score = [int(x) for x in score]
     skills = list(data_dict.keys())
@@ -45,12 +45,13 @@ def generate_polar_bar_chart_fig(data_dict, id, family):
         ),
         name='Skills'
     ))
+
     fig.update_layout(
         polar=dict(
             radialaxis=dict(
                 visible=True,
                 range=[0, 5]
-            )), title=f'Polar bar chart de {id}, famille : {family}',
+            )), title=f'Polar bar chart de {name}, famille : {family}',
         showlegend=False
     )
     return fig
@@ -75,10 +76,10 @@ def save_img_in_file(fig, id):
 def from_dict_to_zipfile(data_dict, id):
     if not os.path.exists(dir_files_zip):
         os.mkdir(dir_files_zip)
-
+    name = data_dict.get("name")
     with zipfile.ZipFile(f'{dir_files_zip}/zipfile{id}.zip', 'w') as zip_file:
-        for family, dict_by_family in data_dict.items():
-            fig = generate_polar_bar_chart_fig(dict_by_family, id, family)
+        for family, dict_by_family in data_dict.get("data").items():
+            fig = generate_polar_bar_chart_fig(dict_by_family, name, family)
             create_files_zip_dir()
             filename = f'polar_bar_chart_{id}_{family}_{timestr}.jpeg'
             fig.write_image(filename)
