@@ -8,20 +8,21 @@ from json2html import *
 import plotly.graph_objects as go
 
 
-def generate_radar_chart_fig(data_dict, id):
-    score = list(data_dict.values())
-    skills = list(data_dict.keys())
+def generate_radar_chart_fig(data_dict):
+    score = list(data_dict.get('data').values())
+    skills = list(data_dict.get('data').keys())
     fig = go.Figure(data=go.Scatterpolar(
         r=score,
         theta=skills,
         fill='toself'
     ))
+    name = data_dict.get('name')
     fig.update_layout(
         polar=dict(
             radialaxis=dict(
                 visible=True, range=[0, 5]
             )),
-        title=f'Radar Chart de {id}',
+        title = f'Radar Chart de {name}',
         showlegend=False
     )
     return fig
@@ -90,7 +91,7 @@ def from_dict_to_zipfile(data_dict, id):
 
 
 def from_dict_to_radar_chart_displayed(data_dict, id):
-    fig = generate_radar_chart_fig(data_dict, id)
+    fig = generate_radar_chart_fig(data_dict)
     img = save_img_in_file(fig, id)
     return display_img(img, id)
 
