@@ -86,7 +86,7 @@ def from_dict_to_zipfile(data_dict, id):
             zip_file.writestr(filename, jpeg_data)
             os.remove(filename)
 
-    return render_download_button()
+    return download_file(id, filename)
 
 
 def from_dict_to_radar_chart_displayed(data_dict, id):

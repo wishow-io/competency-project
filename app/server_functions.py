@@ -9,10 +9,6 @@ def display_img(img, id):
     return send_file(img, mimetype='image/jpeg')
 
 
-def render_download_button():
-    return render_template('download.html')
-
-
 def download_file(id, filename):
     filename = f'{dir_files_zip}/zipfile{id}.zip'
     path = os.path.join(os.getcwd(), filename)
