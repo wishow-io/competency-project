@@ -19,7 +19,7 @@ def home():
     return 'hello from server'
 
 
-@app.route('/get_zip_by_user/<int:id>')
+@app.route('/get_zip_by_user/<int:id>/')
 def get_zip_by_user(id):
     data_dict = user_level_by_family
     return from_dict_to_zipfile(data_dict, id)
@@ -43,5 +43,4 @@ def download(filename, id):
 
 
 if __name__ == '__main__':
-    print(APP_PORT)
     app.run(port=APP_PORT, host=APP_HOST, debug=True)
