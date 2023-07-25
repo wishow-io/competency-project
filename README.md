@@ -10,14 +10,30 @@ Family of competencies
 Level (1 to 5)
 
 **Setting up**
-All dependencies of this project are dealt by poetry.
+All dependencies of this project are dealt by pip.
 In order to retrieve all necessary dependencies, you need to:
 
-- Install poetry: https://python-poetry.org/docs/#installation
-- Run :
+- Install virtual env
 
-> > $poetry shell (to activate virtual environment)
-> > $poetry install (to install dependencies)
+  > > $ pip install virtualenv
+
+- Activate venv :
+
+# On Windows
+
+> > $source env/Scripts/activate
+
+(env)
+
+# On Linux
+
+> > $ source env/bin/activate
+
+- Install all dependencies :
+
+> > $pip install
+
+-Configure your .env :
 
 - Create your env file (from .env_EXEMPLE) with port and server adress
 
@@ -27,7 +43,7 @@ Go to /app and run :
 
 > > $python3 app.py
 
-and try all endpoints of 'routes.py'
+and try all endpoints of 'app.py'
 
 **Run tests**
 
