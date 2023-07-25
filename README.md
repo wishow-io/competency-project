@@ -23,9 +23,9 @@ In order to retrieve all necessary dependencies, you need to:
 
 **Run project**
 
-> > $python3 routes.py
+> > $python3 app.py
 
-and try all endpoints of 'routes.py'
+and try all endpoints of 'app.py'
 
 **Run tests**
 
