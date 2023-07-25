@@ -1,6 +1,6 @@
 
 from dotenv import load_dotenv
-from flask import Flask
+from flask import Flask, request
 from data_functions import *
 from mock_data.user_score import *
 import os
@@ -19,21 +19,21 @@ def home():
     return 'hello from server'
 
 
-@app.route('/get_zip_by_user/<int:id>')
+@app.route('/get_zip_by_user/<int:id>', methods=['POST'])
 def get_zip_by_user(id):
-    data_dict = user_level_by_family
+    data_dict = request.json
     return from_dict_to_zipfile(data_dict, id)
 
 
-@app.route('/get_radar_chart_image/<int:id>/')
+@app.route('/get_radar_chart_image/<int:id>/', methods=['POST'])
 def get_radar_chart_image(id):
-    data_dict = user_level
+    data_dict = request.json
     return from_dict_to_radar_chart_displayed(data_dict, id)
 
 
-@app.route('/get_best_profile/')
+@app.route('/get_best_profile/', methods=['POST'])
 def get_best_profile():
-    dict = target_comparison
+    dict = request.json
     return best_profile(dict)
 
 
