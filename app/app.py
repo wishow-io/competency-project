@@ -1,17 +1,17 @@
 
+from dotenv import load_dotenv
 from flask import Flask
 from data_functions import *
 from mock_data.user_score import *
-import dotenv
 import os
 
 
-dotenv.load_dotenv()
-server_address = os.getenv("SERVER_ADDRESS")
-port = os.getenv("PORT")
-
-
 app = Flask(__name__, template_folder='templates')
+
+
+load_dotenv()
+APP_HOST = os.getenv("HOST")
+APP_PORT = os.getenv("PORT")
 
 
 @app.route('/')
@@ -19,10 +19,10 @@ def home():
     return 'hello from server'
 
 
-@app.route('/get_zip_by_user/<int:id>/<string:family>')
-def get_zip_by_user(id, family):
+@app.route('/get_zip_by_user/<int:id>')
+def get_zip_by_user(id):
     data_dict = user_level_by_family
-    return from_dict_to_zipfile(data_dict, id, family)
+    return from_dict_to_zipfile(data_dict, id)
 
 
 @app.route('/get_radar_chart_image/<int:id>/')
@@ -43,4 +43,5 @@ def download(filename, id):
 
 
 if __name__ == '__main__':
-    app.run(host=server_address, port=port, debug=True)
+    print(APP_PORT)
+    app.run(port=APP_PORT, host=APP_HOST, debug=True)
