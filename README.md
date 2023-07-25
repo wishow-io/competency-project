@@ -31,7 +31,7 @@ In order to retrieve all necessary dependencies, you need to:
 
 - Install all dependencies :
 
-> > $pip install
+> > $pip install -r requirements.txt
 
 -Configure your .env :
 

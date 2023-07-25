@@ -2,6 +2,9 @@
 __pycache__/
 .vscode 
 
+/mock_data
+/generated_files
+
 *.jpg
 *.jpeg
 *.zip
