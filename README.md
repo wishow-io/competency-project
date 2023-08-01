@@ -13,9 +13,9 @@ Level (1 to 5)
 All dependencies of this project are dealt by pip.
 In order to retrieve all necessary dependencies, you need to:
 
-- Install virtual env
+- create your virtual env
 
-  > > $ pip install virtualenv
+> > python<version> -m venv <virtual-environment-name>
 
 - Activate venv :
 
@@ -41,9 +41,9 @@ In order to retrieve all necessary dependencies, you need to:
 
 Go to /app and run :
 
-> > $python3 app.py
+> > $python3 main.py
 
-and try all endpoints of 'app.py'
+and try all endpoints of 'main.py'
 
 **Run tests**
 
