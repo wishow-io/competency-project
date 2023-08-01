@@ -1,12 +1,14 @@
 -- Python Program to produce radarchart from a matrix competency --
 
 **Purpose**
-Radar chart for each dev (by family or for all competencies)
-To compare profiles to a target profile
+
+- visualize a radar chart with skills of a dev
+- download a zip with a radar or polarbarchart (depending on the number of skills) by family of skills
+- get a ranking of devs compared with a target dev (based on score of skills)
 
 **Matrice of competency**
-Name of competencies
-Family of competencies
+Name of skills
+Family of skills
 Level (1 to 5)
 
 **Setting up**
@@ -35,11 +37,9 @@ In order to retrieve all necessary dependencies, you need to:
 
 -Configure your .env :
 
-- Create your env file (from .env_EXEMPLE) with port and server adress
+- Create your env file (from .env_EXEMPLE) with port and host
 
 **Run project**
-
-Go to /app and run :
 
 > > $python3 main.py
 
