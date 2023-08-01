@@ -143,6 +143,26 @@ def best_profile(a_dict):
     final_scores_dict = dict(zip(names, all_final_scores))
     sorted_dict = dict(sorted(final_scores_dict.items(),
                        key=lambda x: x[1], reverse=True))
-    sorted_json = json.dumps(sorted_dict)
-    response = json2html.convert(json=sorted_json)
-    return response
+    top_three = list(sorted_dict.items())[:3]
+    result = {
+        "target": {
+            "score": target_skills
+        },
+        "ranking": {
+            "first": {
+                "name": top_three[0][0],
+                "score": top_three[0][1]
+            },
+            "second": {
+                "name": top_three[1][0],
+                "score": top_three[1][1]
+            },
+            "third": {
+                "name": top_three[2][0],
+                "score": top_three[2][1]
+            }
+        }
+    }
+
+    sorted_json = json.dumps(result)
+    return sorted_json

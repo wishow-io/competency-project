@@ -4,6 +4,7 @@ from flask import Flask, request
 from api.data_functions import *
 import os
 import hashlib
+from api.mock_data.user_score import target_comparison
 
 
 app = Flask(__name__, template_folder='templates')
